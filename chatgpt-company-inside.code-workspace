@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"name": "chatgpt-company-inside",
+			"path": "."
+		},
+		{
+			"name": "backend",
+			"path": "backend"
+		},
+		{
+			"name": "frontend",
+			"path": "frontend"
+		}
+	],
+	"settings": {}
+}

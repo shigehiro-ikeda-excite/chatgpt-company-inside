@@ -36,7 +36,7 @@ VSCodeの拡張機能のタブを開くと、このリポジトリが推奨す�
 
 ### バックエンドのローカル起動
 
-PythonをHomebrewでインストールする。
+VSCodeのターミナルを起動し、PythonをHomebrewでインストールする。
 
 ```bash
 brew install python
@@ -76,7 +76,11 @@ uvicorn main:app --reload
 
 ![run_backend_local](./images/run_backend_local.png)
 
-http://localhost:8000 にアクセスするとAPIが応答する。
+別のターミナルアプリを起動して、以下のコマンドを実行し http://localhost:8000 にアクセスするとAPIが応答する。
+
+```bash
+curl http://localhost:8000
+```
 
 
 ### フロントエンドのローカル起動

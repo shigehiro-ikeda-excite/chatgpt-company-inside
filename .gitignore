@@ -11,3 +11,4 @@ desktop.ini
 # VSCode
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json

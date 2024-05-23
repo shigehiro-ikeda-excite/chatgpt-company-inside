@@ -76,7 +76,7 @@ uvicorn main:app --reload
 
 ![run_backend_local](./images/run_backend_local.png)
 
-別のターミナルアプリを起動して、以下のコマンドを実行し http://localhost:8000 にアクセスするとAPIが応答する。
+別にMacのターミナルアプリなど起動して、以下のコマンドを実行し http://localhost:8000 にアクセスするとAPIが応答する。
 
 ```bash
 curl http://localhost:8000
@@ -107,3 +107,35 @@ npm run dev
 ![run_frontend_local](./images/run_frontend_local.png)
 
 ブラウザで http://localhost:5173 にアクセスすると画面が表示される。
+
+
+### データベースのローカル起動
+
+事前に、Docker Desktopを起動する。
+
+VSCodeのターミナル、またはMacのターミナルアプリから、dockerのプロジェクトフォルダに移動する。
+
+```bash
+cd docker
+```
+
+docker-composeでMySQLとRedisのコンテナを起動する。
+
+```bash
+docker-compose up
+```
+
+![docker_compose_up](./images/docker_compose_up.png)
+
+起動したコンテナを停止する場合は、docker-composeを実行したターミナルで Ctrl+C を押す。  
+ターミナルを閉じてもバックグラウンドでMySQLとRedisを起動させておきたい場合は、以下の通り -d ををつけて起動すること。
+
+```bash
+docker-compose up -d
+```
+
+## 開発ガイド
+
+### データベースへの接続
+
+データベースに接続する

@@ -1,13 +1,18 @@
 services:
   redis:
-    container_name: chatgpt-cache
-    build: ./cache
+    image: redis:7
+    container_name: chatgpt-redis
     ports:
       - "6379:6379"
   db:
-    container_name: chatgpt-database
-    build: ./database
+    image: mysql:8
+    container_name: chatgpt-mysql
     restart: always
+    volumes:
+      - ./database/data:/var/lib/mysql
+      - ./database/sql:/docker-entrypoint-initdb.d
     environment:
+      MYSQL_ROOT_PASSWORD: LtbPJLRDA7vixT5n
+      TZ: 'Asia/Tokyo'
     ports:
       - "3306:3306"

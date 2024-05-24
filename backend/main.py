@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Response, status
 
-from backend.database import SessionLocal
+from database import SessionLocal
 from model.health_status import HealthStatus
 from service import health_check
 

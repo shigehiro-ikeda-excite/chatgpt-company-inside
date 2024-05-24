@@ -1,19 +1,9 @@
 from fastapi import FastAPI, Response, status
 
-from database import SessionLocal
 from model.health_status import HealthStatus
 from service import health_check
 
-from .database import SessionLocal
-
 app = FastAPI()
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 @app.get("/")
 async def root():

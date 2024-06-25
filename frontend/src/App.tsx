@@ -2,21 +2,25 @@ import { SetStateAction, useState } from 'react';
 import './App.css';
 
 function App() {
-  const [messages, setMessages] = useState<{ id: number; text: string; sender: string; }[]>([]);
+  const [messages, setMessages] = useState<{ id: number; text: string; role: string; }[]>([]);
   const [input, setInput] = useState('');
 
 const handleSend = async () => {
   if (input.trim() !== '') {
-    const newUserMessage = {
+    const newMessages = [...messages, {
       id: messages.length, 
       text: input, 
-      sender: 'user'
-    };
-    setMessages(messages => [...messages, newUserMessage]);
+      role: 'user'
+    }];
+    setMessages(newMessages);
     setInput(''); // テキストボックスをクリア
 
     // OpenAI APIへのリクエストを設定
     const bearerToken = import.meta.env.VITE_OPENAI_API_KEY;
+    const sendMessages = newMessages.map((m) => ({
+      role: m.role,
+      content: m.text
+    }));
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -26,13 +30,8 @@ const handleSend = async () => {
       },
       body: JSON.stringify({
         model: 'gpt-4', // 使用するモデル
-        messages: [
-          {
-            role: 'user', 
-            content: input
-          }
-        ],
-        max_tokens: 50, // 生成するトークンの最大数
+        messages: sendMessages,
+        max_tokens: 2048, // 生成するトークンの最大数
       })
     });
 
@@ -42,7 +41,7 @@ const handleSend = async () => {
       const botMessage = { 
         id: messages.length + 1, 
         text: data.choices[0].message.content, 
-        sender: 'bot' 
+        role: data.choices[0].message.role
       };
       setMessages(messages => [...messages, botMessage]);
     } else {
@@ -66,7 +65,7 @@ const handleSend = async () => {
       <div className="chat-container">
         <div className="messages">
           {messages.map((message) => (
-            <div key={message.id} className={`message ${message.sender}`}>
+            <div key={message.id} className={`message ${message.role}`}>
               {message.text}
             </div>
           ))}

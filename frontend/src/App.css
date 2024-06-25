@@ -1,5 +1,6 @@
 #root {
   max-width: 1280px;
+  min-width: 512px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -39,4 +40,40 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.input-area input {
+  min-width: 360px;
+  margin-right: 8px;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.message {
+  margin: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  width: fit-content;
+}
+
+.user {
+  background-color: lightblue;
+  color: #2d2d2d;
+  text-align: right;
+  margin-left: auto;
+  max-width: 100%;
+}
+
+.bot {
+  background-color: lightgray;
+  color: #2d2d2d;
+  text-align: left;
+  margin-right: auto;
+  max-width: 100%;
+}
+
+.message-list {
+  display: flex;
+  flex-direction: column;
 }

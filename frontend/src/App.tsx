@@ -1,4 +1,4 @@
-import { SetStateAction, useState, useEffect } from 'react';
+import { SetStateAction, useState, useEffect, useCallback } from 'react';
 import './App.css';
 import React from 'react';
 
@@ -12,18 +12,7 @@ function App() {
     title: string;
   }
 
-  useEffect(() => {
-    viewModelsList();
-  }, []); // この空の配列が、副作用をコンポーネントのマウント時にのみ実行することを保証します
-
-  const Tooltip = ({ children, title }: TooltipProps) => (
-    <div className="tooltip">
-      {children}
-      <span className="tooltiptext">{title}</span>
-    </div>
-  );
-
-  const viewModelsList = async () => {
+  const viewModelsList = useCallback(async () => {
     // OpenAI APIへのリクエストを設定
     const bearerToken = import.meta.env.VITE_OPENAI_API_KEY;
     const response = await fetch('https://api.openai.com/v1/models', {
@@ -47,7 +36,18 @@ function App() {
       // エラーハンドリング
       console.error('API request failed');
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    viewModelsList();
+  }, [viewModelsList]); // この空の配列が、副作用をコンポーネントのマウント時にのみ実行することを保証します
+
+  const Tooltip = ({ children, title }: TooltipProps) => (
+    <div className="tooltip">
+      {children}
+      <span className="tooltiptext">{title}</span>
+    </div>
+  );
 
   const formatDate = (date: Date | string) => {
     return new Intl.DateTimeFormat('ja-JP', {

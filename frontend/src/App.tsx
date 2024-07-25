@@ -1,11 +1,14 @@
-import { SetStateAction, useState, useEffect, useCallback } from 'react';
+import { SetStateAction, useRef, useState, useEffect, useCallback } from 'react';
 import './App.css';
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 
 function App() {
   const [messages, setMessages] = useState<{ id: number; text: string; role: string; }[]>([]);
   const [input, setInput] = useState('');
   const [rows, setRows] = useState(1);
+
+  const messagesEndRef = useRef(null);
 
   interface TooltipProps {
     children: React.ReactNode;
@@ -40,7 +43,14 @@ function App() {
 
   useEffect(() => {
     viewModelsList();
-  }, [viewModelsList]); // この空の配列が、副作用をコンポーネントのマウント時にのみ実行することを保証します
+  }, [viewModelsList]);
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    (messagesEndRef.current as HTMLDivElement | null)?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const Tooltip = ({ children, title }: TooltipProps) => (
     <div className="tooltip">
@@ -129,13 +139,10 @@ function App() {
       <div className="chat-container">
         <div className="messages">
           {messages.map((message) => (
-            <div key={message.id} className={`message ${message.role}`}>
-              {message.text.split('\n').map((line, index, array) => (
-                <React.Fragment key={index}>
-                  {line}
-                  {index < array.length - 1 && <br />}
-                </React.Fragment>
-              ))}
+            <div key={message.id} className={`message ${message.role}`} ref={messagesEndRef}>
+              <ReactMarkdown>
+                {message.text}
+              </ReactMarkdown>
             </div>
           ))}
         </div>
